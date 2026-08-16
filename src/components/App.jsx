@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Header from "./Header"
 import Main from "./Main"
+import getRandomIds from "../script/fetchPokemons"
 
 export default function App() {
 
@@ -8,13 +9,26 @@ export default function App() {
 	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
-		fetch("https://pokeapi.co/api/v2/pokemon?limit=20&offset=0/")
-			.then((res) => res.json())
-			.then((json) => {
-				setPokemons(json)
-				setIsLoading(false)
-			})
+		for (let i = 0; i < 5; i++) {
+			const randomId = Math.floor(Math.random() * 200)
+
+				fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`)
+					.then((res) => res.json())
+					.then((pokemon) => {
+						setPokemons(prev => [						 
+								...prev, 
+								{
+									pokemon
+								}
+						])					
+					})
+			
+		}
+
+		setIsLoading(false)
 	}, [])
+
+	console.log(getRandomIds(14, 151))
 
 	if (isLoading) {
 		return (
@@ -22,20 +36,16 @@ export default function App() {
 				<h1>Loading...</h1>
 			</div>
 		)
-	} else {
-		console.log(pokemons.results)
-	}
+	} 
+	// else {
+	// 	console.log(pokemons)
+	// 	pokemons.map(poke => console.log(poke.pokemon.sprites))
+	// }
 
 	return (
 		<>
 			<Header />
 			<Main pokemon={pokemons} />
-			{pokemons.results.map(poke => {
-				<>
-					<h2>Name: {poke.name}</h2>
-					{/* <img src={poke.sprites.front_default} alt="" /> */}
-				</>
-			})}
 		</>
 	)
 }
