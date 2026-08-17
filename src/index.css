@@ -52,6 +52,7 @@ main .card > button {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    width: 100%;
 }
 
 main .card .card-head {
