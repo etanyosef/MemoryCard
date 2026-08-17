@@ -12,13 +12,13 @@ export default function Main() {
 
     useEffect(() => {
         (async () => {
-            try {
+            try {                
+                setIsGameOver(false)
                 const getCards = await fetchPokemon()
                 setCards(getCards)
             } catch (error) {
                 console.log(error)
             } finally {
-                setIsGameOver(false)
                 setIsLoading(false)
             }
         })()
@@ -33,6 +33,12 @@ export default function Main() {
             return
         }
 
+        setCards(prevCards => shuffleCards(prevCards))
+
+        console.log(shuffleCards(cards))
+
+        // console.log(cards)
+
         if (currentScore === bestScore) {
             setBestScore(prevScore => prevScore + 1)
         }
@@ -40,6 +46,17 @@ export default function Main() {
         setCurrentScore(prevScore => prevScore + 1)
 
         setCardsSelected(prevSelected => [...prevSelected, id])
+    }
+
+    function shuffleCards(arr) {
+        const newArr = arr
+
+        for (let i = newArr.length -1; i > 0; i--) {
+            const r = Math.floor(Math.random() * (i + 1));
+            [newArr[i], newArr[r] = newArr[r], newArr[i]];
+        }
+
+        return newArr
     }
 
     if (isLoading) {
