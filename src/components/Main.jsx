@@ -1,31 +1,87 @@
-export default function Main({pokemon}) {
+import { useEffect, useState } from "react"
+import fetchPokemon from "../script/fetchPokemon"
+import Spinner from "./spinner/Spinner"
+
+export default function Main() {
+    const [isLoading, setIsLoading] = useState(true)
+    const [cards, setCards] = useState([])
+    const [cardsSelected, setCardsSelected] = useState([])
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [currentScore, setCurrentScore] = useState(0)
+    const [bestScore, setBestScore] = useState(0)
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const getCards = await fetchPokemon()
+                setCards(getCards)
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setIsGameOver(false)
+                setIsLoading(false)
+            }
+        })()
+    }, [isGameOver])
+
+    function handleCardClicked(id) {
+        if (cardsSelected.includes(id)) {
+            console.log('game over')
+            setIsGameOver(true)
+            setCurrentScore(0)
+            setCardsSelected([])
+            return
+        }
+
+        if (currentScore === bestScore) {
+            setBestScore(prevScore => prevScore + 1)
+        }
+
+        setCurrentScore(prevScore => prevScore + 1)
+
+        setCardsSelected(prevSelected => [...prevSelected, id])
+    }
+
+    if (isLoading) {
+        return (
+            <main>
+                <Spinner />
+            </main>
+        )
+    }
+
     return (
         <main>
-            <Gameboard pokemon={pokemon} />
+            <p>Cards selected: {cardsSelected}</p>
+            <div>
+                <p>Current Score: {currentScore}</p>
+                <p>Best Score: {bestScore}</p>
+            </div>
+            <Gameboard cards={cards} handleClick={handleCardClicked} />
         </main>
     )
 }
 
-function Gameboard({pokemon}) {
+function Gameboard({cards, handleClick}) {
     return (
         <div className="gameboard">
-            <h2>Game board</h2>
-            {pokemon.map(poke => (
-                <Card key={poke.pokemon.id} poke={poke.pokemon} />
-			))}
+            {cards.map(pokemon => (
+                <Card key={pokemon.id} pokemon={pokemon} handleClick={handleClick} />
+            ))}
         </div>
     )
 }
 
-function Card({poke}) {
-    const pokemonId = poke.id
-    const SPRITE_URL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`
-
+function Card({pokemon, handleClick}) {
     return (
-        <div className="pokemon-card">
-            <h2>{poke.name}</h2>
-            <p>{pokemonId}</p>
-            <img src={SPRITE_URL} alt={poke.name} />
+        <div className="card" id={pokemon.id}>
+            <button onClick={(() => handleClick(pokemon.id))}>
+                <div className="card-head">
+                    <p className="pokemon-name">{pokemon.name}</p>
+                    <p>{pokemon.id}</p>
+                </div>
+                <img src={pokemon.img} alt="" />
+            </button>
         </div>
     )
 }
