@@ -33,12 +33,6 @@ export default function Main() {
             return
         }
 
-        setCards(prevCards => shuffleCards(prevCards))
-
-        console.log(shuffleCards(cards))
-
-        // console.log(cards)
-
         if (currentScore === bestScore) {
             setBestScore(prevScore => prevScore + 1)
         }
@@ -46,17 +40,20 @@ export default function Main() {
         setCurrentScore(prevScore => prevScore + 1)
 
         setCardsSelected(prevSelected => [...prevSelected, id])
+
+        setCards((prevCards) => shuffleCards(prevCards))
+        console.log(cards)
     }
 
     function shuffleCards(arr) {
-        const newArr = arr
+        const newArr = [...arr];
 
-        for (let i = newArr.length -1; i > 0; i--) {
+        for (let i = newArr.length - 1; i > 0; i--) {
             const r = Math.floor(Math.random() * (i + 1));
-            [newArr[i], newArr[r] = newArr[r], newArr[i]];
+            [newArr[i], newArr[r]] = [newArr[r], newArr[i]];
         }
 
-        return newArr
+        return newArr;
     }
 
     if (isLoading) {
