@@ -41,19 +41,14 @@ export default function Main() {
 
         setCardsSelected(prevSelected => [...prevSelected, id])
 
-        setCards((prevCards) => shuffleCards(prevCards))
-        console.log(cards)
-    }
-
-    function shuffleCards(arr) {
-        const newArr = [...arr];
-
-        for (let i = newArr.length - 1; i > 0; i--) {
-            const r = Math.floor(Math.random() * (i + 1));
-            [newArr[i], newArr[r]] = [newArr[r], newArr[i]];
+        const score = currentScore;
+        if (currentScore === cards.length) {
+            console.log('You Win!')
         }
 
-        return newArr;
+        setCards((prevCards) => shuffle(prevCards))
+        console.log(cards.length)
+        console.log(score)
     }
 
     if (isLoading) {
