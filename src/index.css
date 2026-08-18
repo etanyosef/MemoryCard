@@ -2,6 +2,8 @@
     box-sizing: border-box;
     font-family: Roboto, sans-serif;
     letter-spacing: 1.4px;
+    padding: 0;
+    margin: 0;
 }
 
 body {
@@ -9,7 +11,6 @@ body {
 }
 
 #root {
-    padding: 0 10px;
     min-height: 100vh;
     background-image: url('./assets/img/card-bg.gif');
     background-repeat: no-repeat;
@@ -21,10 +22,46 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    padding: 20px;
+}
+
+header > .title {
+    display: flex;
+    align-items: center;
+}
+
+header > .title > img {    
+    transition: 300ms ease-in-out;
+}
+
+header > .title:hover > img {
+    transform: rotate(40deg);
+}
+
+header > .title > img {
+    width: 80px;
+}
+
+header > .title h1 {
+    margin: 0;
+}
+
+header > .howto {
+    max-width: 380px;
+    padding: 10px 16px;
+    background-color: white;
+    color: black;
+    border-radius: 16px;
+    border: 6px solid black;
 }
 
 main {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem 0;
 }
 
 main .scoreboard {
@@ -60,12 +97,17 @@ main .gameboard .card {
     width: 220px;
     height: 280px;
     display: flex;
-    transition: 100ms ease-in-out;
+    transition: 200ms ease-in-out;
 }
 
 main .gameboard .card:hover {
-    transform: translateY(-14px) rotate(-3deg) scale(103%);
+    transform: translateY(-6px) rotate(-2deg) scale(103%);
     box-shadow: 3px 3px 8px rgb(80, 80, 80);
+}
+
+main .gameboard .card:hover button > img {
+    transform: scale(102%) rotate(4deg);
+    transition: 200ms ease-in-out;
 }
 
 main .card > button {
@@ -83,20 +125,20 @@ main .card .card-head {
 
 main .card .card-head > p {
     margin: 0;
-    /* background-color: rgb(60, 115, 255); */
     color: white;
     text-shadow: 0 0 6px black;
     font-weight: 600;
     font-size: 1.2rem;
+    padding: 0 8px;
 }
-main .card .card-head > p:first-child {
+/* main .card .card-head > p:first-child {
     border-radius: 0 0 10px 0;
     padding: 8px 10px;
 }
 main .card .card-head > p:nth-child(2) {
     border-radius: 0 0 0 10px;
     padding: 8px 10px;
-}
+} */
 
 main .card .card-head .pokemon-name {
     text-transform: capitalize;
