@@ -14,7 +14,8 @@ export default function Main() {
 
     useEffect(() => {
         (async () => {
-            try {                
+            try {             
+                setIsLoading(true)
                 setIsGameOver(false)
                 const getCards = await fetchPokemon()
                 setCards(getCards)
@@ -24,11 +25,10 @@ export default function Main() {
                 setIsLoading(false)
             }
         })()
-    }, [isGameOver])
+    }, [])
 
     function handleCardClicked(id) {
         if (cardsSelected.includes(id)) {
-            setIsLoading(true)
             setIsGameOver(true)
             setCardsSelected([])
             
@@ -63,6 +63,17 @@ export default function Main() {
         return (
             <main>
                 <p>{error}</p>
+            </main>
+        )
+    }
+
+    if (isGameOver) {
+        return (
+            <main>
+                <dialog open>
+                    <h2>Game Over</h2>
+                    <button onClick={() => setIsGameOver(false)}>Retry</button>
+                </dialog>
             </main>
         )
     }
