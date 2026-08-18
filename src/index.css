@@ -13,6 +13,7 @@ body {
 #root {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
     min-height: 100vh;
     background-image: url('./assets/img/card-bg.gif');
     background-repeat: no-repeat;
@@ -153,7 +154,13 @@ main .gameboard .card img {
 }
 
 .modal {
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: -100px;
+    border-radius: .8rem;
+    background-color: rgba(255, 255, 255, 0.7);
     align-self: center;
     width: 300px;
+    padding: 1.4rem;
 }
