@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react"
 import fetchPokemon from "../script/fetchPokemon"
 import Spinner from "./spinner/Spinner"
+import shuffle from "../script/shuffle"
 
 export default function Main() {
     const [isLoading, setIsLoading] = useState(true)
+    const [isGameOver, setIsGameOver] = useState(false)
+    const [error, setError] = useState(null)
     const [cards, setCards] = useState([])
     const [cardsSelected, setCardsSelected] = useState([])
-    const [isGameOver, setIsGameOver] = useState(false)
-    const [currentScore, setCurrentScore] = useState(0)
+    const currentScore = cardsSelected.length
     const [bestScore, setBestScore] = useState(0)
 
     useEffect(() => {
@@ -17,7 +19,7 @@ export default function Main() {
                 const getCards = await fetchPokemon()
                 setCards(getCards)
             } catch (error) {
-                console.log(error)
+                setError(error)
             } finally {
                 setIsLoading(false)
             }
@@ -26,29 +28,27 @@ export default function Main() {
 
     function handleCardClicked(id) {
         if (cardsSelected.includes(id)) {
-            console.log('game over')
+            setIsLoading(true)
             setIsGameOver(true)
-            setCurrentScore(0)
             setCardsSelected([])
-            return
-        }
+            
+            console.log('game over')
+        } else {
+            const newCardsSelected = [...cardsSelected, id]
+            const newScore = newCardsSelected.length;
 
-        if (currentScore === bestScore) {
-            setBestScore(prevScore => prevScore + 1)
-        }
+            setCardsSelected(newCardsSelected)
 
-        setCurrentScore(prevScore => prevScore + 1)
+            if (currentScore === bestScore) {
+                setBestScore(newScore)
+            }
 
-        setCardsSelected(prevSelected => [...prevSelected, id])
-
-        const score = currentScore;
-        if (currentScore === cards.length) {
-            console.log('You Win!')
-        }
+            if (newScore === cards.length) {
+                console.log('You Win!')
+            }
+        }              
 
         setCards((prevCards) => shuffle(prevCards))
-        console.log(cards.length)
-        console.log(score)
     }
 
     if (isLoading) {
@@ -59,10 +59,18 @@ export default function Main() {
         )
     }
 
+    if (error) {
+        return (
+            <main>
+                <p>{error}</p>
+            </main>
+        )
+    }
+
     return (
         <main>
-            <p>Cards selected: {cardsSelected}</p>
-            <div>
+            <div className="scoreboard">
+                {/* <p>Cards selected: {cardsSelected}</p> */}
                 <p>Current Score: {currentScore}</p>
                 <p>Best Score: {bestScore}</p>
             </div>
@@ -87,7 +95,7 @@ function Card({pokemon, handleClick}) {
             <button onClick={(() => handleClick(pokemon.id))}>
                 <div className="card-head">
                     <p className="pokemon-name">{pokemon.name}</p>
-                    <p>{pokemon.id}</p>
+                    <p>#{pokemon.id}</p>
                 </div>
                 <img src={pokemon.img} alt="" />
             </button>
