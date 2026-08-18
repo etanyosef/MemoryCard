@@ -147,3 +147,7 @@ main .card .card-head .pokemon-name {
 main .gameboard .card img {
     width: 100%;
 }
+
+dialog:open ::backdrop {
+    background-color: red;
+}
