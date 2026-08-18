@@ -2,9 +2,21 @@
 .spinner {
     display: grid;
     place-items: center;
-    margin-top: 400px;
+    margin-top: 350px;
     /* background: #ffcb05; */
 }
+
+.spinner > h2 {
+    margin-top: 80px;
+    font-size: 2rem;
+    padding: 10px 20px;
+    border-radius: 10px;
+    outline: 8px solid black;
+    border: 8px solid white;
+    background-color: red;
+    color: white;
+}
+
 .pokeball {
   width: 60px;
   height: 60px;
