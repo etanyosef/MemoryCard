@@ -67,16 +67,16 @@ export default function Main() {
         )
     }
 
-    if (isGameOver) {
-        return (
-            <main>
-                <dialog open>
-                    <h2>Game Over</h2>
-                    <button onClick={() => setIsGameOver(false)}>Retry</button>
-                </dialog>
-            </main>
-        )
-    }
+    // if (isGameOver) {
+    //     return (
+    //         <main>
+    //             <dialog open>
+    //                 <h2>Game Over</h2>
+    //                 <button onClick={() => setIsGameOver(false)}>Retry</button>
+    //             </dialog>
+    //         </main>
+    //     )
+    // }
 
     return (
         <main>
@@ -86,6 +86,13 @@ export default function Main() {
                 <p>Best Score: {bestScore}</p>
             </div>
             <Gameboard cards={cards} handleClick={handleCardClicked} />
+
+            {isGameOver ? <main>
+                <dialog open>
+                    <h2>Game Over</h2>
+                    <button onClick={() => setIsGameOver(false)}>Retry</button>
+                </dialog>
+            </main> : null }
         </main>
     )
 }
