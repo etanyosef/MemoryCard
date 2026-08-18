@@ -11,6 +11,8 @@ body {
 }
 
 #root {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background-image: url('./assets/img/card-bg.gif');
     background-repeat: no-repeat;
@@ -61,7 +63,9 @@ main {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding: 2rem 0;
+    /* padding: 2rem 0; */
+    justify-content: center;
+    flex: 1;
 }
 
 main .scoreboard {
@@ -148,6 +152,8 @@ main .gameboard .card img {
     width: 100%;
 }
 
-dialog:open ::backdrop {
-    background-color: red;
+.modal {
+    background-color: white;
+    align-self: center;
+    width: 300px;
 }
