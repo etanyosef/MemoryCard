@@ -30,7 +30,7 @@ export default function Main() {
     function handleCardClicked(id) {
         if (cardsSelected.includes(id)) {
             setIsGameOver(true)
-            setCardsSelected([])
+            // setCardsSelected([])
             
             console.log('game over')
         } else {
@@ -51,6 +51,11 @@ export default function Main() {
         setCards((prevCards) => shuffle(prevCards))
     }
 
+    function retryGame() {
+        setIsGameOver(false)
+        setCardsSelected([])
+    }
+
     if (isLoading) {
         return (
             <main>
@@ -67,16 +72,18 @@ export default function Main() {
         )
     }
 
-    // if (isGameOver) {
-    //     return (
-    //         <main>
-    //             <dialog open>
-    //                 <h2>Game Over</h2>
-    //                 <button onClick={() => setIsGameOver(false)}>Retry</button>
-    //             </dialog>
-    //         </main>
-    //     )
-    // }
+    if (isGameOver) {
+        return (
+            <main>
+                <div className="modal">
+                    <h2>Game Over</h2>
+                    <p>Current score: {currentScore}</p>
+                    <p>Best score: {bestScore}</p>
+                    <button onClick={retryGame}>Retry</button>
+                </div>
+            </main>
+        )
+    }
 
     return (
         <main>
@@ -86,13 +93,6 @@ export default function Main() {
                 <p>Best Score: {bestScore}</p>
             </div>
             <Gameboard cards={cards} handleClick={handleCardClicked} />
-
-            {isGameOver ? <main>
-                <dialog open>
-                    <h2>Game Over</h2>
-                    <button onClick={() => setIsGameOver(false)}>Retry</button>
-                </dialog>
-            </main> : null }
         </main>
     )
 }
