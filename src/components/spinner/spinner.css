@@ -2,7 +2,6 @@
 .spinner {
     display: grid;
     place-items: center;
-    margin-top: 350px;
     /* background: #ffcb05; */
 }
 
