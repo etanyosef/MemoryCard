@@ -92,10 +92,12 @@ export default function Main() {
                         { isGameOver && !hasWon ? 'Game Over' : 'You catched all Pokemon!' }
                     </h2>
 
-                    <p>Current score: {currentScore}</p>
-                    <p>Best score: {bestScore}</p>
+                    <p>Score: {currentScore}</p>
+                    <p>Best score: {bestScore}/{difficulty}</p>
 
-                    <button onClick={retryGame}>Retry</button>
+                    <button className="retry-btn" onClick={retryGame}>
+                        { isGameOver && !hasWon ? 'Retry' : 'Play again' }
+                    </button>
 
                     <h2>Change difficulty { hasWon ? 'to catch more Pokemon!' : null }</h2>
                     <div className="difficulty-btns">
@@ -129,9 +131,8 @@ export default function Main() {
     return (
         <main>
             <div className="scoreboard">
-                {/* <p>Cards selected: {cardsSelected}</p> */}
                 <p>Current Score: {currentScore}</p>
-                <p>Best Score: {bestScore}</p>
+                <p>Best Score: {bestScore} / {difficulty}</p>
             </div>
             <Gameboard cards={cards} handleClick={handleCardClicked} />
         </main>
