@@ -5,19 +5,21 @@ import shuffle from "../script/shuffle"
 
 export default function Main() {
     const [isLoading, setIsLoading] = useState(true)
-    const [isGameOver, setIsGameOver] = useState(false)
+    const [isGameOver, setIsGameOver] = useState(true)
+    const [hasWon, setHasWon] = useState(false)
     const [error, setError] = useState(null)
     const [cards, setCards] = useState([])
     const [cardsSelected, setCardsSelected] = useState([])
     const currentScore = cardsSelected.length
     const [bestScore, setBestScore] = useState(0)
+    const [difficulty, setDifficulty] = useState(6)
 
     useEffect(() => {
         (async () => {
             try {             
                 setIsLoading(true)
                 setIsGameOver(false)
-                const getCards = await fetchPokemon()
+                const getCards = await fetchPokemon(difficulty)
                 setCards(getCards)
             } catch (error) {
                 setError(error)
@@ -25,7 +27,7 @@ export default function Main() {
                 setIsLoading(false)
             }
         })()
-    }, [])
+    }, [difficulty])
 
     function handleCardClicked(id) {
         if (cardsSelected.includes(id)) {
@@ -44,7 +46,8 @@ export default function Main() {
             }
 
             if (newScore === cards.length) {
-                console.log('You Win!')
+                setHasWon(true)
+                setIsGameOver(true)
             }
         }              
 
@@ -53,7 +56,16 @@ export default function Main() {
 
     function retryGame() {
         setIsGameOver(false)
+        setHasWon(false)
         setCardsSelected([])
+    }
+
+    function changeDifficulty(difficulty) {
+        setIsGameOver(false)
+        setHasWon(false)
+        setBestScore(0)
+        setCardsSelected([])
+        setDifficulty(difficulty)
     }
 
     if (isLoading) {
@@ -72,14 +84,43 @@ export default function Main() {
         )
     }
 
-    if (isGameOver) {
+    if (isGameOver || hasWon) {
         return (
             <main>
                 <div className="modal">
-                    <h2>Game Over</h2>
+                    <h2>
+                        { isGameOver && !hasWon ? 'Game Over' : 'You catched all Pokemon!' }
+                    </h2>
+
                     <p>Current score: {currentScore}</p>
                     <p>Best score: {bestScore}</p>
+
                     <button onClick={retryGame}>Retry</button>
+
+                    <h2>Change difficulty { hasWon ? 'to catch more Pokemon!' : null }</h2>
+                    <div className="difficulty-btns">
+                        <button 
+                            disabled={difficulty === 6}
+                            className={ difficulty === 6 ? 'active' : null }
+                            onClick={() => {
+                                if (difficulty !== 6) changeDifficulty(6)
+                            }}
+                        >Easy</button>
+                        <button 
+                            disabled={difficulty === 12}
+                            className={ difficulty === 12 ? 'active' : null }
+                            onClick={() => {
+                                if (difficulty !== 12) changeDifficulty(12)
+                            }}
+                        >Medium</button>
+                        <button 
+                            disabled={difficulty === 20}
+                            className={ difficulty === 20 ? 'active' : null }
+                            onClick={() => {
+                                if (difficulty !== 20) changeDifficulty(20)
+                            }}
+                        >Hard</button>
+                    </div>
                 </div>
             </main>
         )
