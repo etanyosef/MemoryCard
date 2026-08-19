@@ -4,7 +4,7 @@ export default function Header() {
     return (
         <header>
             <div className='title'>
-                <img src={pokeball} alt="" />
+                <img src={pokeball} alt="Pokeball icon" />
                 <div>
                     <span>Pokemon Master</span>
                     <h1>Pokemon Memory</h1>
