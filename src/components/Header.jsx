@@ -6,15 +6,15 @@ export default function Header() {
             <div className='title'>
                 <img src={pokeball} alt="Pokeball icon" />
                 <div>
-                    <span>Pokemon Master</span>
-                    <h1>Pokemon Memory</h1>
+                    <span>Pokémon Master</span>
+                    <h1>PokéMemory</h1>
                 </div>
             </div>
 
             <span className="howto">
                 <strong>How to play:</strong>
                 <p>
-                    Pick a Pokemon card only once! Each time you pick it will shuffle the cards.
+                    Pick a Pokémon card only once! Each time you pick it will shuffle the cards.
                 </p>
             </span>
         </header>
