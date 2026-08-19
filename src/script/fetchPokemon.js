@@ -11,8 +11,8 @@ function getRandomIds(count, max) {
     return PokemonIds.slice(0, count)
 }
 
-export default async function fetchPokemon() {
-    const ids = getRandomIds(10, 1025);
+export default async function fetchPokemon(difficulty) {
+    const ids = getRandomIds(difficulty, 1025);
 
     const response = await Promise.all(
         ids.map(id => fetch(`https://pokeapi.co/api/v2/pokemon/${id}`))
